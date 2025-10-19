@@ -1,0 +1,25 @@
+fetch('products.json')
+  .then(res => res.json())
+  .then(products => {
+    const container = document.getElementById('products');
+    const search = document.getElementById('search');
+
+    function displayProducts(items) {
+      container.innerHTML = items.map(p => `
+        <div class="product">
+          <img src="${p.image}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <p>₹${p.price}</p>
+          <button>Add to Cart</button>
+        </div>
+      `).join('');
+    }
+
+    displayProducts(products);
+
+    search.addEventListener('input', e => {
+      const value = e.target.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(value));
+      displayProducts(filtered);
+    });
+  });
